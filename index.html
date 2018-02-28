@@ -1,0 +1,181 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colorado Front Range School Closures</title>
+    <link rel="canonical" href="http://extras.denverpost.com/weather-closures/school-closures.html" />
+    <link rel="shortcut icon" href="http://extras.mnginteractive.com/live/media/favIcon/dpo/favicon.ico" type="image/x-icon" />
+    <meta name="distribution" content="global" />
+    <meta name="robots" content="index, nofollow" />
+    <meta name="title" content="Colorado Front Range School Closures" />
+    <meta name="language" content="en, sv" />
+    <meta name="Copyright" content="Copyright &copy; The Denver Post." />
+    <link rel="author" href="humans.txt" />
+    <meta name="description" content="List of weather-related school closures for Colorado's Front Range">
+    <meta name="news_keywords" content="school closings, school closure, weather closure, blizzard, snow">
+    <meta name="twitter:card" value="summary" />
+    <meta name="twitter:url" value="https://www.denverpost.com/denver-school-closures/" />
+    <meta name="twitter:title" value="Colorado Front Range School Closures" />
+    <meta name="twitter:description" value="List of weather-related school closures for Colorado's Front Range" />
+    <meta name="twitter:image" value="http://extras.denverpost.com/weather-closures/school-closed.jpg" />
+    <meta name="twitter:site" value="@denverpost" />
+    <meta name="twitter:domain" value="denverpost.com" />
+    <meta name="twitter:creator" content="@DenverPost">
+    <meta name="twitter:app:name:iphone" value="Denver Post">
+    <meta name="twitter:app:name:ipad" value="Denver Post">
+    <meta name="twitter:app:name:googleplay" value="The Denver Post">
+    <meta name="twitter:app:id:iphone" value="id375264133">
+    <meta name="twitter:app:id:ipad" value="id409389010">
+    <meta name="twitter:app:id:googleplay" value="com.ap.denverpost" />
+    <meta property="fb:app_id" content="105517551922" />
+    <meta property="og:title" content="Colorado Front Range School Closures" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.denverpost.com/denver-school-closures/" />
+    <meta property="og:image" content="http://extras.denverpost.com/weather-closures/school-closed.jpg" />
+    <meta property="og:site_name" content="The Denver Post" />
+    <meta property="og:description" content="List of weather-related school closures for Colorado's Front Range" />
+    <meta property="article:publisher" content="https://www.facebook.com/denverpost" />
+    <meta name="google-site-verification" content="2bKNvyyGh6DUlOvH1PYsmKN4KRlb-0ZI7TvFtuKLeAc" />
+    <!-- Style sheets -->
+    <link rel="stylesheet" type="text/css" href="http://extras.denverpost.com/foundation/css/foundation.css" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <!-- Scripts -->
+    <script src="http://extras.denverpost.com/foundation/js/vendor/jquery.js "></script>
+    <script src="http://extras.denverpost.com/foundation/js/vendor/modernizr.js"></script>
+    <script type='text/javascript'>
+    //Write a function that allows us to add commas to raw numbers in spreadsheet for display.  2413 becomes 2,413.
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
+    // SCHOOLS
+    //this will be executed after we "fetch" the contents of a spreadsheet. The json parameter will hold our spreadsheet's data
+    function displayContentSchools(json) {
+        //start an html table and write out our headers.  Using <td> tags so it isn't bold and centered, which is the <th> default.
+        //var pre_html = '<table id = "school-closures"><tr><td>School district</td><td>Status</td></thead><tbody>';
+        //same as above but gets rid of column headers
+        var pre_html = '<h2 class="table-title">Schools and districts</h2><table id = "school-closures"><tbody>';
+        //Create an empty string to hold the HTML. We will put table data here.
+        var actual_html = '';
+        //After we grab the table, close the HTML table.
+        var post_html = '</tbody></table>'
+        //figure out how many rows our spreadsheet has
+        var len = json.feed.entry.length
+
+        //loop through the spreadsheet, gathering data
+        for (var i = 0; i < len; i++) {
+            //for each row, add the following to actual HTML, grabbing it as a list, and then joining the list together as one long string.
+            //Uses HTML for table cells, and then grabs attributes from the spreadsheet, using appropriate syntax. Enter your table header in the Google spreadsheet between            
+            //the gsx$ and .$t.
+            actual_html += [
+                '<tr><td>',
+                '<a target="top" title="District website" href="',
+                json.feed.entry[i].gsx$districtwebsite.$t,
+                '">',
+                json.feed.entry[i].gsx$schooldistrict.$t,
+                '</td>',
+                '<td>',
+                json.feed.entry[i].gsx$status.$t,
+                '</td>', '</tr>'
+            ].join('');
+        }
+        //put all three of our HTML strings into our div we made at the top of the page
+        document.getElementById('school-list').innerHTML = pre_html + actual_html + post_html
+    }
+
+    // GOVERNMENTS
+    function displayContentGovernment(json) {
+        //start an html table and write out our headers.  Using <td> tags so it isn't bold and centered, which is the <th> default.
+        //var pre_html = '<table id = "school-closures"><tr><td>School district</td><td>Status</td></thead><tbody>';
+        //same as above but gets rid of column headers
+        var pre_html = '<h2 class = "table-title">Government offices</h2><table id = "government-closures"><tbody>';
+        //Create an empty string to hold the HTML. We will put table data here.
+        var actual_html = '';
+        //After we grab the table, close the HTML table.
+        var post_html = '</tbody></table>'
+        //figure out how many rows our spreadsheet has
+        var len = json.feed.entry.length
+
+        //loop through the spreadsheet, gathering data
+        for (var i = 0; i < len; i++) {
+            //for each row, add the following to actual HTML, grabbing it as a list, and then joining the list together as one long string.
+            //Uses HTML for table cells, and then grabs attributes from the spreadsheet, using appropriate syntax. Enter your table header in the Google spreadsheet between            
+            //the gsx$ and .$t.
+            actual_html += [
+                '<tr><td>',
+                '<a target="top" title="Website" href="',
+                json.feed.entry[i].gsx$govwebsite.$t,
+                '">',
+                json.feed.entry[i].gsx$government.$t,
+                '</td>',
+                '<td>',
+                json.feed.entry[i].gsx$status.$t,
+                '</td>', '</tr>'
+            ].join('');
+        }
+        //put all three of our HTML strings into our div we made at the top of the page
+        document.getElementById('gov-list').innerHTML = pre_html + actual_html + post_html
+    }
+
+
+    // SHOW/HIDE LISTS
+    $(function() {
+        $('#gov-list').hide();
+        $('#toggle-button').click(function() {
+            $('#school-list').toggle();
+            $('#gov-list').toggle();
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="large-8 large-centered medium-10 medium-centered columns">
+            <a href="#" class="button expand" id="toggle-button">Click here to switch between<br>schools and government offices</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-8 large-centered medium-10 medium-centered columns">
+            <div id="school-list">
+                <!-- Grab the data from our google spreadsheet, using the callback to call the function we just created -->
+                <script src="https://spreadsheets.google.com/feeds/list/1nUDjqxcBArTpEA6J8944VB2hfdZlDrn03PcVsy605B8/od6/public/values?alt=json-in-script&amp;callback=displayContentSchools " type="text/javascript "></script>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-8 large-centered medium-10 medium-centered columns">
+            <div id="gov-list"></div>
+            <script src="https://spreadsheets.google.com/feeds/list/1ND9TIzfkJJVpex9TzJMopXC51jy6AsBzk4kbkY5xHHY/od6/public/values?alt=json-in-script&amp;callback=displayContentGovernment " type="text/javascript "></script>
+        </div>
+    </div>
+    <div class="row">
+        <div class="large-8 large-centered medium-10 medium-centered columns">
+            <p><em>To have your school or day care center listed, please email <a href="mailto:dpo@denverpost.com?subject=Weather closures ">dpo@denverpost.com</a>.</em></p>
+        </div>
+    </div>
+    <script src="http://extras.denverpost.com/foundation/js/foundation.min.js "></script>
+    <script>
+    $(document).foundation();
+    </script>
+    <footer>
+        <div class="row">
+            <div class="large-8 large-centered medium-10 medium-centered columns">
+                <hr>
+                <p>Copyright &copy; 2018 <a href="http://www.denverpost.com/ ">The Denver Post</a></p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
