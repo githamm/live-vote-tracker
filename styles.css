@@ -13,9 +13,20 @@ h2.page-title {
     text-align: center;
 }
 
-table {
+#vote-list table {
     width: 100%;
     border-collapse: collapse;
+    background: #fafafa;
+}
+
+#vote-total-table {
+    /*border: none;*/
+    background: #fafafa;
+}
+
+#vote-total-table td {
+    font-size: 2.5rem;
+    text-align: center;
 }
 
 /*th {
@@ -27,7 +38,7 @@ td {
     font-family: Helvetica, Arial, sans-serif;
 }*/
 
-tbody tr:nth-child(odd) {
+#vote-list tbody tr:nth-child(odd) {
   background: #ddd;
 }
 
