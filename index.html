@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <meta http-equiv="refresh" content="30; url=http://localhost:8000"> -->
+    <!-- <meta http-equiv="refresh" content="180; url=http://extras.denverpost.com/projects/2017/nfl-draft/index.html"> -->
     <title>Steve Lebsock expulsion vote tracker</title>
     <link rel="canonical" href="https://extras.denverpost.com/app/live-vote-tracker/lebsock/index.html" />
     <link rel="shortcut icon" href="http://extras.mnginteractive.com/live/media/favIcon/dpo/favicon.ico" type="image/x-icon" />
@@ -33,7 +35,7 @@
         //start an html table and write out our headers.  Using <td> tags so it isn't bold and centered, which is the <th> default.
         //var pre_html = '<table id = "school-closures"><tr><td>School district</td><td>Status</td></thead><tbody>';
         //same as above but gets rid of column headers
-        var pre_html = '<table id="vote-total-table"><thead><tr><th style="color: #eee; background: #00b000;">Yes votes</th><th style="color: #eee; background:#af0000;">No votes</th></tr></thead><tbody>';
+        var pre_html = '<h2 class="table-title">Final vote</h2><table id="vote-total-table"><thead><tr><th style="color: #eee; background: #00b000;">Yes votes</th><th style="color: #eee; background:#af0000;">No votes</th></tr></thead><tbody>';
         //Create an empty string to hold the HTML. We will put table data here.
         var actual_html = '';
         //After we grab the table, close the HTML table.
@@ -65,7 +67,7 @@
         //start an html table and write out our headers.  Using <td> tags so it isn't bold and centered, which is the <th> default.
         //var pre_html = '<table id = "school-closures"><tr><td>School district</td><td>Status</td></thead><tbody>';
         //same as above but gets rid of column headers
-        var pre_html = '<table id="vote-list"><thead><tr><th>District</th><th>Rep.</th><th>Party</th><th>Vote</th><th>Notes</th></tr></thead><tbody>';
+        var pre_html = '<table id="vote-list"><thead><tr><th>District</th><th>Rep.</th><th>Party</th><th>Vote</th><th>Pos.</th><th>Notes</th></tr></thead><tbody>';
         //Create an empty string to hold the HTML. We will put table data here.
         var actual_html = '';
         //After we grab the table, close the HTML table.
@@ -91,6 +93,8 @@
                 '<td>',
                 json.feed.entry[i].gsx$vote.$t,
                 '<td>',
+                json.feed.entry[i].gsx$position.$t,
+                '<td>',
                 json.feed.entry[i].gsx$notes.$t,
                 '</td>', '</tr>'
             ].join('');
@@ -106,7 +110,7 @@
         <div class="large-12 columns">
             <div id="vote-totals">
                 <!-- Grab the data from our google spreadsheet, using the callback to call the function we just created -->
-                <script src="https://spreadsheets.google.com/feeds/list/1zJO7k73ll0AW1pfK4gKOaYAmSzbjN-ooqBHhjDlDruU/3/public/values?alt=json-in-script&amp;callback=displayVoteTotals " type="text/javascript "></script>
+                <script src="https://spreadsheets.google.com/feeds/list/1zJO7k73ll0AW1pfK4gKOaYAmSzbjN-ooqBHhjDlDruU/2/public/values?alt=json-in-script&amp;callback=displayVoteTotals " type="text/javascript "></script>
             </div>
         </div>
     </div>
